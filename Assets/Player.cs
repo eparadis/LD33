@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     List<Bounds> _platformBounds;
     Bounds _bounds;
     int _jumpingCounter = 0;
+    bool _disableMovement = false;
 
     void Start()
     {
@@ -25,9 +26,9 @@ public class Player : MonoBehaviour {
         _bounds = GetComponent<Renderer>().bounds;
 
         float horizDistance = 0;
-        if( Input.GetAxis("Horizontal") > 0)
+        if( Input.GetAxis("Horizontal") > 0 && !_disableMovement)
             horizDistance = 0.08f;
-        if( Input.GetAxis("Horizontal") < 0)
+        if( Input.GetAxis("Horizontal") < 0 && !_disableMovement)
             horizDistance = -0.08f;
 
         horizDistance = FindMaxHorizontalMovement( horizDistance);
@@ -42,7 +43,7 @@ public class Player : MonoBehaviour {
         vertDistance = FindMaxVerticalMovement( vertDistance);
         transform.Translate(0, vertDistance, 0);*/
 
-        if( IsTouchingTopOfPlatform() && Input.GetButtonDown("Jump"))
+        if( IsTouchingTopOfPlatform() && Input.GetButtonDown("Jump") && !_disableMovement)
             _jumpingCounter = 10;
 
         if( IsTouchingTopOfPlatform())
@@ -81,6 +82,7 @@ public class Player : MonoBehaviour {
     {
         Ui.SendMessage("ShowGameOver");
         _isFalling = false;
+        _disableMovement = true;
     }
 
     bool IsTouchingTopOfPlatform()
