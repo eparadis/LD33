@@ -5,6 +5,7 @@ using System.Collections;
 public class Dialogs : MonoBehaviour {
 
     public GameObject gameOverDialogPrefab;
+    public GameObject Player;
     private GameObject _gameOver;
     private GameObject _canvas;
     private Text _scoreLabel;
@@ -43,5 +44,8 @@ public class Dialogs : MonoBehaviour {
     {
         _health -= 1;
         _healthLabel.text = _health.ToString();
+
+        if( _health == 0)
+            Player.SendMessage("KillPlayer");
     }
 }

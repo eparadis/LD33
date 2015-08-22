@@ -1090,6 +1090,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverDialogPrefab: {fileID: 141300, guid: 1bf4457fac4b84d5b9013824cd8b8687, type: 2}
+  Player: {fileID: 858277071}
 --- !u!1 &1640506883
 GameObject:
   m_ObjectHideFlags: 0

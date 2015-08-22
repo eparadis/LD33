@@ -23,6 +23,13 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public void KillPlayer()
+    {
+        Ui.SendMessage("ShowGameOver");
+        _isFalling = false;
+        _disableMovement = true;
+    }
+
     void Start()
     {
         var platforms = GameObject.FindGameObjectsWithTag("platform");
@@ -99,13 +106,6 @@ public class Player : MonoBehaviour {
     bool HasReachedBottomOfScreen()
     {
         return transform.position.y < -5.0f;
-    }
-
-    void KillPlayer()
-    {
-        Ui.SendMessage("ShowGameOver");
-        _isFalling = false;
-        _disableMovement = true;
     }
 
     bool IsTouchingTopOfPlatform()
