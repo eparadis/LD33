@@ -36,22 +36,12 @@ public class Player : MonoBehaviour {
 
         float vertDistance = 0;
         if( Input.GetAxis("Vertical") > 0)
-        {
-            if( WouldPassThroughBottomOfPlatform(0.08f) )
-                vertDistance = _allowableTravel;
-            else
-                vertDistance = 0.08f;
-            transform.Translate(0, vertDistance, 0);
-        }
-        
+            vertDistance = 0.08f;
         if( Input.GetAxis("Vertical") < 0)
-        {
-            if( WouldPassThroughTopOfPlatform(-0.08f) )
-                vertDistance = _allowableTravel;
-            else
-                vertDistance = -0.08f;
-            transform.Translate(0, vertDistance, 0);
-        }
+            vertDistance = -0.08f;
+
+        vertDistance = FindMaxVerticalMovement( vertDistance);
+        transform.Translate(0, vertDistance, 0);
 
         /*if( IsTouchingPlatform() && Input.GetButtonDown("Jump"))
             _jumpingCounter = 10;
@@ -282,6 +272,41 @@ public class Player : MonoBehaviour {
             }
         }
 
+        return best;
+    }
+
+    float FindMaxVerticalMovement( float best)
+    {
+        var newCharBound = new Bounds(_bounds.center + new Vector3( 0, best, 0), _bounds.size);
+        List<Bounds> intersectingBounds = new List<Bounds>();
+        foreach( var platformBound in _platformBounds)
+        {
+            if( platformBound.Intersects( newCharBound))
+                intersectingBounds.Add(platformBound);
+        }
+        
+        if( best > 0)
+        {
+            foreach( Bounds testingBound in intersectingBounds)
+            {
+                float maxMove = testingBound.min.y - _bounds.max.y;
+                if( maxMove < 0 )
+                    continue;
+                if( maxMove < best)
+                    best = maxMove;
+            }
+        } else if( best < 0)
+        {
+            foreach( Bounds testingBound in intersectingBounds)
+            {
+                float maxMove = testingBound.max.y - _bounds.min.y;
+                if( maxMove > 0)
+                    continue;
+                if( maxMove > best)
+                    best = maxMove;
+            }
+        }
+        
         return best;
     }
 }
