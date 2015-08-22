@@ -24,11 +24,14 @@ public class Player : MonoBehaviour {
     {
         _bounds = GetComponent<Renderer>().bounds;
 
-        if( Input.GetAxis("Horizontal") > 0)
-            transform.Translate(0.08f, 0, 0);
+        if( !IsTouchingSideOfPlatform() )
+        {
+            if( Input.GetAxis("Horizontal") > 0)
+                transform.Translate(0.08f, 0, 0);
 
-        if( Input.GetAxis("Horizontal") < 0)
-            transform.Translate(-0.08f, 0, 0);
+            if( Input.GetAxis("Horizontal") < 0)
+                transform.Translate(-0.08f, 0, 0);
+        }
 
         if( IsTouchingPlatform() && Input.GetButtonDown("Jump"))
             _jumpingCounter = 10;
@@ -36,24 +39,28 @@ public class Player : MonoBehaviour {
         if( IsTouchingPlatform())
             _isFalling = false;
 
+        MoveVertically();
+
+        if( HasReachedBottomOfScreen() )
+            KillPlayer();
+    }
+
+    void MoveVertically()
+    {
         if( _isFalling)
         {
-            transform.Translate(0, -0.16f , 0);
+            transform.Translate(0, -0.16f, 0);
         }
-        else 
+        else
         {
-            if( _jumpingCounter > 0 ) 
+            if( _jumpingCounter > 0)
             {
                 _jumpingCounter -= 1;
                 transform.Translate(0, 0.32f, 0);
             }
-
             if( _jumpingCounter == 0)
                 _isFalling = true;
         }
-
-        if( HasReachedBottomOfScreen() )
-            KillPlayer();
     }
 
     bool HasReachedBottomOfScreen()
@@ -75,6 +82,11 @@ public class Player : MonoBehaviour {
                 return true;
         }
 
+        return false;
+    }
+
+    bool IsTouchingSideOfPlatform()
+    {
         return false;
     }
 }
