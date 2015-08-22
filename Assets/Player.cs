@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     List<Bounds> _platformBounds;
     Bounds _bounds;
     int _jumpingCounter = 0;
+    float _allowableTravel;
 
     void Start()
     {
@@ -24,48 +25,84 @@ public class Player : MonoBehaviour {
     {
         _bounds = GetComponent<Renderer>().bounds;
 
-        if( !IsTouchingSideOfPlatform() )
+        float horizDistance = 0;
+        if( Input.GetAxis("Horizontal") > 0)
         {
-            if( Input.GetAxis("Horizontal") > 0)
-                transform.Translate(0.08f, 0, 0);
-
-            if( Input.GetAxis("Horizontal") < 0)
-                transform.Translate(-0.08f, 0, 0);
+            if( WouldTouchRightSideOfPlatform(0.08f) )
+                horizDistance = _allowableTravel;
+            else
+                horizDistance = 0.08f;
+            transform.Translate(horizDistance, 0, 0);
         }
 
-        if( IsTouchingPlatform() && Input.GetButtonDown("Jump"))
+        if( Input.GetAxis("Horizontal") < 0)
+        {
+            if( WouldTouchLeftSideOfPlatform(-0.08f) )
+                horizDistance = _allowableTravel;
+            else
+                horizDistance = -0.08f;
+            transform.Translate(horizDistance, 0, 0);
+        }
+
+        float vertDistance = 0;
+        if( Input.GetAxis("Vertical") > 0)
+        {
+            if( WouldPassThroughBottomOfPlatform(0.08f) )
+                vertDistance = _allowableTravel;
+            else
+                vertDistance = 0.08f;
+            transform.Translate(0, vertDistance, 0);
+        }
+        
+        if( Input.GetAxis("Vertical") < 0)
+        {
+            if( WouldPassThroughTopOfPlatform(-0.08f) )
+                vertDistance = _allowableTravel;
+            else
+                vertDistance = -0.08f;
+            transform.Translate(0, vertDistance, 0);
+        }
+
+        /*if( IsTouchingPlatform() && Input.GetButtonDown("Jump"))
             _jumpingCounter = 10;
 
         if( IsTouchingPlatform())
             _isFalling = false;
 
-        MoveVertically();
-
-        if( HasReachedBottomOfScreen() )
-            KillPlayer();
-    }
-
-    void MoveVertically()
-    {
+        float distance = 0;
         if( _isFalling)
         {
-            transform.Translate(0, -0.16f, 0);
+            if( WouldPassThroughTopOfPlatform(-0.16f))
+                distance = _allowableTravel; 
+            else
+                distance = -0.16f;
+            transform.Translate(0, distance, 0);
         }
         else
         {
             if( _jumpingCounter > 0)
             {
                 _jumpingCounter -= 1;
-                transform.Translate(0, 0.32f, 0);
+                if( WouldPassThroughBottomOfPlatform(0.32f))
+                {
+                    _jumpingCounter = 0;
+                    distance = _allowableTravel;
+                }
+                else
+                    distance = 0.32f;
+                transform.Translate(0, distance, 0);
             }
             if( _jumpingCounter == 0)
                 _isFalling = true;
-        }
+        }*/
+
+        if( HasReachedBottomOfScreen() )
+            KillPlayer();
     }
 
     bool HasReachedBottomOfScreen()
     {
-        return transform.position.y < -5.0;
+        return transform.position.y < -5.0f;
     }
 
     void KillPlayer()
@@ -85,8 +122,141 @@ public class Player : MonoBehaviour {
         return false;
     }
 
-    bool IsTouchingSideOfPlatform()
+    bool WouldPassThroughTopOfPlatform( float distance)
     {
+        var newCharBound = new Bounds(_bounds.center + new Vector3( 0, distance, 0), _bounds.size);
+        foreach( var platformBound in _platformBounds)
+        {
+            if( platformBound.Intersects( newCharBound))
+            {
+                Debug.Log("intersect top");
+                if( OverlapTop( newCharBound, platformBound))
+                {
+                    _allowableTravel = GetAllowableTravelDownwards( _bounds, platformBound);
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
+    bool OverlapTop(Bounds character, Bounds platform)
+    {
+        if( character.min.y < platform.max.y )
+        {
+            Debug.Log("would overlap top");
+            return true;
+        }
+        return false;
+    }
+
+    float GetAllowableTravelDownwards( Bounds character, Bounds platform)
+    {
+        return platform.max.y - character.min.y;
+    }
+
+    float GetAllowableTravelRightwards( Bounds character, Bounds platform)
+    {
+        return platform.min.x - character.max.x;
+    }
+
+    float GetAllowableTravelLeftwards( Bounds character, Bounds platform)
+    {
+        return platform.max.x - character.min.x;
+    }
+
+    float GetAllowableTravelUpwards( Bounds character, Bounds platform)
+    {
+        return platform.min.y - character.max.y;
+    }
+
+    bool OverlapRight( Bounds character, Bounds platform)
+    {
+        if( character.max.x > platform.min.x )
+        {
+            Debug.Log("would overlap right");
+            return true;
+        }
+        return false;
+    }
+
+    bool WouldTouchRightSideOfPlatform( float distance)
+    {
+        var newCharBound = new Bounds(_bounds.center + new Vector3( distance, 0, 0), _bounds.size);
+        foreach( var platformBound in _platformBounds)
+        {
+            if( platformBound.Intersects( newCharBound))
+            {
+                Debug.Log("intersect right");
+                if( OverlapTop( newCharBound, platformBound)
+                    && OverlapRight( newCharBound, platformBound))
+                {
+                    _allowableTravel = GetAllowableTravelRightwards( _bounds, platformBound);
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
+    bool OverlapLeft( Bounds character, Bounds platform)
+    {
+        if( character.min.x < platform.max.x )
+        {
+            Debug.Log("would overlap left");
+            return true;
+        }
+        return false;
+    }
+    
+    bool WouldTouchLeftSideOfPlatform( float distance)
+    {
+        var newCharBound = new Bounds(_bounds.center + new Vector3( distance, 0, 0), _bounds.size);
+        foreach( var platformBound in _platformBounds)
+        {
+            if( platformBound.Intersects( newCharBound))
+            {
+                Debug.Log("intersect left");
+                if( OverlapTop( newCharBound, platformBound)
+                    && OverlapLeft( newCharBound, platformBound))
+                {
+                    _allowableTravel = GetAllowableTravelLeftwards( _bounds, platformBound);
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
+    bool OverlapBottom( Bounds character, Bounds platform)
+    {
+        if( character.max.y > platform.min.y )
+        {
+            Debug.Log("would overlap bottom");
+            return true;
+        }
+        return false;
+    }
+    
+    bool WouldPassThroughBottomOfPlatform( float distance)
+    {
+        var newCharBound = new Bounds(_bounds.center + new Vector3( 0, distance, 0), _bounds.size);
+        foreach( var platformBound in _platformBounds)
+        {
+            if( platformBound.Intersects( newCharBound))
+            {
+                Debug.Log("intersect bottom");
+                if( OverlapBottom( newCharBound, platformBound))
+                {
+                    _allowableTravel = GetAllowableTravelUpwards( _bounds, platformBound);
+                    return true;
+                }
+            }
+        }
+        
         return false;
     }
 }
