@@ -8,11 +8,18 @@ public class Dialogs : MonoBehaviour {
     private GameObject _gameOver;
     private GameObject _canvas;
     private Text _scoreLabel;
+    private Text _healthLabel;
+    private int _health;
+    private int _score;
 
     void Start()
     {
         _canvas = GameObject.Find("UI/Canvas");
         _scoreLabel = GameObject.Find("UI/Canvas/Panel/ScoreLabel").GetComponent<Text>();
+        _healthLabel = GameObject.Find("UI/Canvas/Panel/HealthLabel").GetComponent<Text>();
+
+        _health = 5;
+        _score = 0;
     }
     
     void Update() {}
@@ -28,6 +35,13 @@ public class Dialogs : MonoBehaviour {
 
     public void IncrementScore()
     {
-        _scoreLabel.text = (int.Parse( _scoreLabel.text) + 1).ToString();
+        _score += 1;
+        _scoreLabel.text = _score.ToString();
+    }
+
+    public void DecrementHealth()
+    {
+        _health -= 1;
+        _healthLabel.text = _health.ToString();
     }
 }

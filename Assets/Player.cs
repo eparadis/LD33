@@ -10,6 +10,18 @@ public class Player : MonoBehaviour {
     Bounds _bounds;
     int _jumpingCounter = 0;
     bool _disableMovement = false;
+    Vector3 _knockbackOrigin;
+    int _knockbackCounter = 0;
+
+    public void KnockBack( Vector3 from)
+    {
+        if( _knockbackCounter == 0 )
+        {
+            Ui.SendMessage("DecrementHealth");
+            _knockbackOrigin = from;
+            _knockbackCounter = 4;
+        }
+    }
 
     void Start()
     {
@@ -19,6 +31,7 @@ public class Player : MonoBehaviour {
         {
             _platformBounds.Add(platforms[i].GetComponent<Renderer>().bounds);
         }
+        _knockbackOrigin = Vector3.zero;
     }
 
     void Update()
@@ -26,51 +39,61 @@ public class Player : MonoBehaviour {
         _bounds = GetComponent<Renderer>().bounds;
 
         float horizDistance = 0;
-        if( Input.GetAxis("Horizontal") > 0 && !_disableMovement)
-            horizDistance = 0.08f;
-        if( Input.GetAxis("Horizontal") < 0 && !_disableMovement)
-            horizDistance = -0.08f;
+        float vertDistance = 0;
 
-        horizDistance = FindMaxHorizontalMovement( horizDistance);
-        transform.Translate(horizDistance, 0, 0);
+        if( _knockbackCounter > 0)
+        {
+            _knockbackCounter -= 1;
 
-        /*float vertDistance = 0;
-        if( Input.GetAxis("Vertical") > 0)
-            vertDistance = 0.08f;
-        if( Input.GetAxis("Vertical") < 0)
-            vertDistance = -0.08f;
-
-        vertDistance = FindMaxVerticalMovement( vertDistance);
-        transform.Translate(0, vertDistance, 0);*/
-
-        if( IsTouchingTopOfPlatform() && Input.GetButtonDown("Jump") && !_disableMovement)
-            _jumpingCounter = 10;
+            Vector3 knockback = KnockbackVector();
+            horizDistance = knockback.x;
+            vertDistance = knockback.y;
+        }
+        else
+        {
+            if( Input.GetAxis("Horizontal") > 0 && !_disableMovement)
+                horizDistance += 0.08f;
+            if( Input.GetAxis("Horizontal") < 0 && !_disableMovement)
+                horizDistance += -0.08f;
+            if( IsTouchingTopOfPlatform() && Input.GetButtonDown("Jump") && !_disableMovement)
+                _jumpingCounter = 10;
+        }
 
         if( IsTouchingTopOfPlatform())
             _isFalling = false;
 
-        float vertDistance = 0;
         if( _isFalling)
         {
-            vertDistance = -0.16f;
+            vertDistance += -0.16f;
         }
         else
         {
             if( _jumpingCounter > 0)
             {
                 _jumpingCounter -= 1;
-                vertDistance = 0.32f;
+                vertDistance += 0.32f;
             }
 
             if( _jumpingCounter == 0)
                 _isFalling = true;
         }
 
+        horizDistance = FindMaxHorizontalMovement( horizDistance);
         vertDistance = FindMaxVerticalMovement( vertDistance);
-        transform.Translate(0, vertDistance, 0);
+        transform.Translate(horizDistance, vertDistance, 0);
         
         if( HasReachedBottomOfScreen() )
             KillPlayer();
+    }
+
+    Vector3 KnockbackVector()
+    {
+        if( _bounds.center.x > _knockbackOrigin.x)
+            return new Vector3( 0.2f, 0, 0);
+        else
+            return new Vector3( -0.2f, 0, 0);
+
+        //return (_bounds.center - _knockbackOrigin) * 0.4f;
     }
 
     bool HasReachedBottomOfScreen()
