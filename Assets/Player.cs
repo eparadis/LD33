@@ -27,22 +27,12 @@ public class Player : MonoBehaviour {
 
         float horizDistance = 0;
         if( Input.GetAxis("Horizontal") > 0)
-        {
-            if( WouldTouchRightSideOfPlatform(0.08f) )
-                horizDistance = _allowableTravel;
-            else
-                horizDistance = 0.08f;
-            transform.Translate(horizDistance, 0, 0);
-        }
-
+            horizDistance = 0.08f;
         if( Input.GetAxis("Horizontal") < 0)
-        {
-            if( WouldTouchLeftSideOfPlatform(-0.08f) )
-                horizDistance = _allowableTravel;
-            else
-                horizDistance = -0.08f;
-            transform.Translate(horizDistance, 0, 0);
-        }
+            horizDistance = -0.08f;
+
+        horizDistance = FindMaxHorizontalMovement( horizDistance);
+        transform.Translate(horizDistance, 0, 0);
 
         float vertDistance = 0;
         if( Input.GetAxis("Vertical") > 0)
@@ -258,5 +248,40 @@ public class Player : MonoBehaviour {
         }
         
         return false;
+    }
+
+    float FindMaxHorizontalMovement( float best)
+    {
+        var newCharBound = new Bounds(_bounds.center + new Vector3( best, 0, 0), _bounds.size);
+        List<Bounds> intersectingBounds = new List<Bounds>();
+        foreach( var platformBound in _platformBounds)
+        {
+            if( platformBound.Intersects( newCharBound))
+                intersectingBounds.Add(platformBound);
+        }
+
+        if( best > 0)
+        {
+            foreach( Bounds testingBound in intersectingBounds)
+            {
+                float maxMove = testingBound.min.x - _bounds.max.x;
+                if( maxMove < 0 )
+                    continue;
+                if( maxMove < best)
+                    best = maxMove;
+            }
+        } else if( best < 0)
+        {
+            foreach( Bounds testingBound in intersectingBounds)
+            {
+                float maxMove = testingBound.max.x - _bounds.min.x;
+                if( maxMove > 0)
+                    continue;
+                if( maxMove > best)
+                    best = maxMove;
+            }
+        }
+
+        return best;
     }
 }
