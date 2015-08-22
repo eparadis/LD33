@@ -24,7 +24,13 @@ public class Player : MonoBehaviour {
     {
         _bounds = GetComponent<Renderer>().bounds;
 
-        if( IsTouchingPlatform() && Input.GetKeyDown(KeyCode.Space))
+        if( Input.GetAxis("Horizontal") > 0)
+            transform.Translate(0.08f, 0, 0);
+
+        if( Input.GetAxis("Horizontal") < 0)
+            transform.Translate(-0.08f, 0, 0);
+
+        if( IsTouchingPlatform() && Input.GetButtonDown("Jump"))
             _jumpingCounter = 10;
 
         if( IsTouchingPlatform())
