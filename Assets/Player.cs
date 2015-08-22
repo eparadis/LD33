@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
     public GameObject Ui;
     List<Bounds> _platformBounds;
     Bounds _bounds;
+    int _jumpingCounter = 0;
 
     void Start()
     {
@@ -23,11 +24,27 @@ public class Player : MonoBehaviour {
     {
         _bounds = GetComponent<Renderer>().bounds;
 
+        if( IsTouchingPlatform() && Input.GetKeyDown(KeyCode.Space))
+            _jumpingCounter = 10;
+
         if( IsTouchingPlatform())
             _isFalling = false;
 
         if( _isFalling)
+        {
             transform.Translate(0, -0.16f , 0);
+        }
+        else 
+        {
+            if( _jumpingCounter > 0 ) 
+            {
+                _jumpingCounter -= 1;
+                transform.Translate(0, 0.32f, 0);
+            }
+
+            if( _jumpingCounter == 0)
+                _isFalling = true;
+        }
 
         if( HasReachedBottomOfScreen() )
             KillPlayer();
