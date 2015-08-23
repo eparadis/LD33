@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d15c33a191c164014995c0472fa5c031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ui: {fileID: 102608, guid: ca5e8aed550ba47c68140c2a862115cc, type: 2}
+  Ui: {fileID: 111984, guid: ca5e8aed550ba47c68140c2a862115cc, type: 2}
   Player: {fileID: 185666, guid: 4810e070d2e33435aa97f5d086f305b4, type: 2}
 --- !u!212 &21280540
 SpriteRenderer:
@@ -78,7 +78,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: Ui
       value: 
-      objectReference: {fileID: 102608, guid: ca5e8aed550ba47c68140c2a862115cc, type: 2}
+      objectReference: {fileID: 111984, guid: ca5e8aed550ba47c68140c2a862115cc, type: 2}
     - target: {fileID: 0}
       propertyPath: Player
       value: 

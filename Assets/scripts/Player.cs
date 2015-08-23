@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 
+    GameObject _ui;
+
     bool _isFalling = true;
-    public GameObject Ui;
     List<Bounds> _platformBounds;
     Bounds _bounds;
     int _jumpingCounter = 0;
@@ -17,7 +18,7 @@ public class Player : MonoBehaviour {
     {
         if( _knockbackCounter == 0 )
         {
-            Ui.SendMessage("DecrementHealth");
+            _ui.SendMessage("DecrementHealth");
             _knockbackOrigin = from;
             _knockbackCounter = 4;
         }
@@ -25,13 +26,14 @@ public class Player : MonoBehaviour {
 
     public void KillPlayer()
     {
-        Ui.SendMessage("ShowGameOver");
+        _ui.SendMessage("ShowGameOver");
         _isFalling = false;
         _disableMovement = true;
     }
 
     void Start()
     {
+        _ui = GameObject.Find("UI");
         var platforms = GameObject.FindGameObjectsWithTag("platform");
         _platformBounds = new List<Bounds>();
         for( var i=0; i<platforms.Length; i+=1)
