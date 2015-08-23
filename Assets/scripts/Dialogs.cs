@@ -4,7 +4,9 @@ using System.Collections;
 
 public class Dialogs : MonoBehaviour {
 
-    public GameObject gameOverDialogPrefab;
+    public GameObject GameOverDialogPrefab;
+    public GameObject YouWonDialogPrefab;
+
     private GameObject _gameOver;
     private GameObject _canvas;
     private Text _scoreLabel;
@@ -29,15 +31,28 @@ public class Dialogs : MonoBehaviour {
     {
         if( _gameOver == null)
         {
-            _gameOver = GameObject.Instantiate(gameOverDialogPrefab);
+            _gameOver = GameObject.Instantiate(GameOverDialogPrefab);
             _gameOver.transform.SetParent(_canvas.transform, false);
         }
+    }
+
+    public void ShowYouWon()
+    {
+        var youWon = GameObject.Instantiate(YouWonDialogPrefab);
+        youWon.transform.SetParent(_canvas.transform, false);
     }
 
     public void IncrementScore()
     {
         _score += 1;
         _scoreLabel.text = _score.ToString();
+
+        var coins = GameObject.FindGameObjectsWithTag("coin");
+        if( coins.Length == 0)
+        {
+            ShowYouWon();
+            KillPlayer();
+        }
     }
 
     public void DecrementHealth()
@@ -46,9 +61,12 @@ public class Dialogs : MonoBehaviour {
         _healthLabel.text = _health.ToString();
 
         if( _health == 0)
-        {
-            var player = GameObject.Find("Player");
-            player.SendMessage("KillPlayer");
-        }
+            KillPlayer();
+    }
+
+    void KillPlayer()
+    {
+        var player = GameObject.Find("Player");
+        player.SendMessage("KillPlayer");
     }
 }
