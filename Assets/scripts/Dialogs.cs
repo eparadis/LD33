@@ -64,6 +64,11 @@ public class Dialogs : MonoBehaviour {
             KillPlayer();
     }
 
+    public void Quit()
+    {
+        Application.LoadLevel("title");
+    }
+
     void KillPlayer()
     {
         var player = GameObject.Find("Player");
