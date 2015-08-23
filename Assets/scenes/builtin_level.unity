@@ -126,22 +126,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 22452712, guid: ca5e8aed550ba47c68140c2a862115cc, type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 455
-      objectReference: {fileID: 0}
-    - target: {fileID: 22452712, guid: ca5e8aed550ba47c68140c2a862115cc, type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 360
-      objectReference: {fileID: 0}
-    - target: {fileID: 22452712, guid: ca5e8aed550ba47c68140c2a862115cc, type: 2}
-      propertyPath: m_SizeDelta.x
-      value: -909
-      objectReference: {fileID: 0}
-    - target: {fileID: 22452712, guid: ca5e8aed550ba47c68140c2a862115cc, type: 2}
-      propertyPath: m_SizeDelta.y
-      value: -722
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ca5e8aed550ba47c68140c2a862115cc, type: 2}
   m_IsPrefabParent: 0
@@ -153,6 +137,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1192481697}
+  - 114: {fileID: 1192481696}
   m_Layer: 0
   m_Name: BuiltInLevelLoader
   m_TagString: Untagged
@@ -160,6 +145,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1192481696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1192481695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 801887fcee2404c83a608727a92d2f19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 185666, guid: 4810e070d2e33435aa97f5d086f305b4, type: 2}
+  PlatformPrefab: {fileID: 170848, guid: 6cff60c4a832942fb8f0fd3c54daee43, type: 2}
+  SpikePrefab: {fileID: 150478, guid: fef5e077fb51b42828382e6a950f962b, type: 2}
+  StarPrefab: {fileID: 137348, guid: a4109003b42484b8ba4e25ad00374077, type: 2}
 --- !u!4 &1192481697
 Transform:
   m_ObjectHideFlags: 0

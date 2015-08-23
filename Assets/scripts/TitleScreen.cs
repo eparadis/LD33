@@ -3,18 +3,15 @@ using System.Collections;
 
 public class TitleScreen : MonoBehaviour {
 
-	// Use this for initialization
 	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
 	
 	}
 
     public void OnStartButtonClick()
     {
+        HardcodedLevelStore levelstore = new HardcodedLevelStore();
+        PlayerPrefs.SetString("builtInLevelSpec", levelstore.GetFirstLevel());
+        Application.LoadLevel("builtin_level");
     }
 
     public void OnLevelEditorButtonClick()

@@ -15,7 +15,8 @@ public class NextLevelButton : MonoBehaviour {
 
     public void NextLevelButtonClick()
     {
-        string nextLevel = GetNextBuiltInLevelSpec();
+        HardcodedLevelStore levelstore = new HardcodedLevelStore();
+        string nextLevel = levelstore.GetNextLevel();
         if( nextLevel == "")
         {
             Application.LoadLevel("title");
@@ -26,8 +27,4 @@ public class NextLevelButton : MonoBehaviour {
         Application.LoadLevel("builtin_level");
     }
 
-    string GetNextBuiltInLevelSpec()
-    {
-        return "";
-    }
 }
