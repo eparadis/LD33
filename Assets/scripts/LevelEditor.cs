@@ -48,6 +48,11 @@ public class LevelEditor : MonoBehaviour {
         _previouslyLoadedObjects = _parser.GetInstantiatedObjects();
     }
 
+    public void PlayLevel()
+    {
+        Application.LoadLevel("saved_level");
+    }
+
     void DestroyObjects( List<GameObject> levelObjects)
     {
         foreach( var go in levelObjects)

@@ -51,7 +51,7 @@ public class Dialogs : MonoBehaviour {
         if( coins.Length == 0)
         {
             ShowYouWon();
-            KillPlayer();
+            //KillPlayer();
         }
     }
 

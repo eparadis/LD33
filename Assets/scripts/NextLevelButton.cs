@@ -15,5 +15,15 @@ public class NextLevelButton : MonoBehaviour {
 
     public void NextLevelButtonClick()
     {
+        string nextLevel = GetNextBuiltInLevelSpec();
+        if( nextLevel == "")
+            Application.LoadLevel("title");
+        PlayerPrefs.SetString( "builtInLevelSpec", nextLevel);
+        Application.LoadLevel("builtin_level");
+    }
+
+    string GetNextBuiltInLevelSpec()
+    {
+        return "";
     }
 }

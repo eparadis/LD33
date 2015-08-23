@@ -11,3 +11,5 @@ EditorBuildSettings:
     path: Assets/scenes/level_builder.unity
   - enabled: 1
     path: Assets/scenes/saved_level.unity
+  - enabled: 1
+    path: Assets/scenes/builtin_level.unity
