@@ -4,16 +4,17 @@ using System.Collections;
 public class Spikes : MonoBehaviour {
 
     public GameObject Ui;
-    public GameObject Player;
+    GameObject _player;
 
     Bounds _bounds;
 
 	void Start () {
+        _player = GameObject.Find("Player");
         _bounds = GetComponent<Renderer>().bounds;
 	}
 	
     void Update () {
-        Bounds player = Player.GetComponent<Renderer>().bounds;
+        Bounds player = _player.GetComponent<Renderer>().bounds;
         
         if( _bounds.Intersects(player))
             PushPlayerBack();
@@ -21,6 +22,6 @@ public class Spikes : MonoBehaviour {
     
     void PushPlayerBack()
     {
-        Player.SendMessage("KnockBack", _bounds.center);
+        _player.SendMessage("KnockBack", _bounds.center);
     }
 }
