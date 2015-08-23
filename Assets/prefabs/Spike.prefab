@@ -66,7 +66,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f6f7de6c3cb784ae3b9d5d7aedbec993, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e6cdc0f1b2d37480283295bac4371352, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -83,6 +83,11 @@ Prefab:
       propertyPath: Player
       value: 
       objectReference: {fileID: 185666, guid: 4810e070d2e33435aa97f5d086f305b4, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e6cdc0f1b2d37480283295bac4371352,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 150478}

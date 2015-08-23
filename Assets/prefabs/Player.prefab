@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 400864}
   - 212: {fileID: 21245634}
   - 114: {fileID: 11461894}
-  - 61: {fileID: 6126538}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -30,19 +29,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!61 &6126538
-BoxCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185666}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Size: {x: .74000001, y: .560000002}
 --- !u!114 &11461894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -54,7 +40,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d623730604484a1d9c574f1a2a351cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ui: {fileID: 111984, guid: ca5e8aed550ba47c68140c2a862115cc, type: 2}
 --- !u!212 &21245634
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -79,7 +64,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 19b5bc989e2554b9e813814d59c5dd11, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1b9fac7e813a54819bd13b824c2600f0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
@@ -92,6 +77,11 @@ Prefab:
       propertyPath: Ui
       value: 
       objectReference: {fileID: 111984, guid: ca5e8aed550ba47c68140c2a862115cc, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1b9fac7e813a54819bd13b824c2600f0,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 185666}
