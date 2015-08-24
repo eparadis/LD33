@@ -23,7 +23,8 @@ public class Player : MonoBehaviour {
     {
         if( _knockbackCounter == 0 )
         {
-            _ui.SendMessage("DecrementHealth");
+            if( _ui != null)
+                _ui.SendMessage("DecrementHealth");
             _knockbackOrigin = from;
             _knockbackCounter = 4;
             PlayRandomSound(HurtSounds);
@@ -32,7 +33,8 @@ public class Player : MonoBehaviour {
 
     public void KillPlayer()
     {
-        _ui.SendMessage("ShowGameOver");
+        if( _ui != null )
+            _ui.SendMessage("ShowGameOver");
         _isFalling = false;
         _disableMovement = true;
         PlayRandomSound(DeathSounds);

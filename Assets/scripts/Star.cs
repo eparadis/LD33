@@ -23,7 +23,8 @@ public class Star : MonoBehaviour {
 
     void CollectStar()
     {
-        _ui.SendMessage("IncrementScore");
+        if( _ui != null)
+            _ui.SendMessage("IncrementScore");
         Destroy(gameObject);
     }
 }
