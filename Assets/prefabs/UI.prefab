@@ -355,6 +355,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameOverDialogPrefab: {fileID: 141300, guid: 1bf4457fac4b84d5b9013824cd8b8687, type: 2}
   YouWonDialogPrefab: {fileID: 155750, guid: fbaefd032def048948495ed6a8d54bfc, type: 2}
+  CoinSounds:
+  - {fileID: 8300000, guid: fbed51261829f4ef9a15b44c3e1aabba, type: 3}
+  - {fileID: 8300000, guid: 457fc7d08209f4c148d9316a4f610308, type: 3}
+  - {fileID: 8300000, guid: 36bf44520d90f4be59ed19ad55b516a7, type: 3}
+  - {fileID: 8300000, guid: 2ed46ab641dfe4feabea34be67dd7511, type: 3}
+  - {fileID: 8300000, guid: 52df67474517a457b90689fed5afab1e, type: 3}
+  - {fileID: 8300000, guid: 754aed7ae17cd44f7984eaac467fd9a7, type: 3}
 --- !u!222 &22213302
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -516,6 +523,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: CoinSounds.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: Player
       value: 

@@ -6,7 +6,9 @@ public class Dialogs : MonoBehaviour {
 
     public GameObject GameOverDialogPrefab;
     public GameObject YouWonDialogPrefab;
-
+    public AudioClip[] CoinSounds;
+    
+    private AudioSource _audioSource;
     private GameObject _gameOver;
     private GameObject _canvas;
     private Text _scoreLabel;
@@ -20,7 +22,8 @@ public class Dialogs : MonoBehaviour {
         _canvas = GameObject.Find("UI/Canvas");
         _scoreLabel = GameObject.Find("UI/Canvas/Panel/ScoreLabel").GetComponent<Text>();
         _healthLabel = GameObject.Find("UI/Canvas/Panel/HealthLabel").GetComponent<Text>();
-
+        _audioSource = GetComponent<AudioSource>();
+        
         _health = 5;
         _score = 0;
     }
@@ -46,6 +49,7 @@ public class Dialogs : MonoBehaviour {
     {
         _score += 1;
         _scoreLabel.text = _score.ToString();
+        PlayRandomSound(CoinSounds);
 
         var coins = GameObject.FindGameObjectsWithTag("coin");
         if( coins.Length == 0)
@@ -73,5 +77,13 @@ public class Dialogs : MonoBehaviour {
     {
         var player = GameObject.Find("Player");
         player.SendMessage("KillPlayer");
+    }
+
+    void PlayRandomSound( AudioClip[] sounds)
+    {
+        if( sounds.Length == 0)
+            return;
+        int randomIndex = Random.Range(0, sounds.Length);
+        _audioSource.PlayOneShot( sounds[randomIndex]);
     }
 }
