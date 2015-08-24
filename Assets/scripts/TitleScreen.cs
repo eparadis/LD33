@@ -4,7 +4,6 @@ using System.Collections;
 public class TitleScreen : MonoBehaviour {
 
 	void Start () {
-	
 	}
 
     public void OnStartButtonClick()

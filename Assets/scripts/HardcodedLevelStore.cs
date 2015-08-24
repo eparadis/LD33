@@ -32,6 +32,14 @@ public class HardcodedLevelStore {
 
     List<string> _levels = new List<string>() 
     {
+        @"L 3 0
+L 0 -5
+L 3 -4.5
+S -3 0
+L 6 -2
+L -2.8 -2
+P",
+
 @"L 3 0
 L 0 -5
 L 3 -4.5
@@ -48,7 +56,7 @@ S -3 0
 K -1 -1
 L 6 -2
 L -2.8 -2
-S -3.5 0
+K -4 0
 P"
 
         
