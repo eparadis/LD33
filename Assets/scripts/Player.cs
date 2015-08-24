@@ -4,6 +4,10 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 
+    public AudioClip[] JumpSounds;
+    public AudioClip[] HurtSounds;
+    public AudioClip[] DeathSounds;
+
     GameObject _ui;
 
     bool _isFalling = true;
@@ -13,6 +17,7 @@ public class Player : MonoBehaviour {
     bool _disableMovement = false;
     Vector3 _knockbackOrigin;
     int _knockbackCounter = 0;
+    AudioSource _audioSource;
 
     public void KnockBack( Vector3 from)
     {
@@ -21,6 +26,7 @@ public class Player : MonoBehaviour {
             _ui.SendMessage("DecrementHealth");
             _knockbackOrigin = from;
             _knockbackCounter = 4;
+            PlayRandomSound(HurtSounds);
         }
     }
 
@@ -29,6 +35,7 @@ public class Player : MonoBehaviour {
         _ui.SendMessage("ShowGameOver");
         _isFalling = false;
         _disableMovement = true;
+        PlayRandomSound(DeathSounds);
     }
 
     void Start()
@@ -41,6 +48,7 @@ public class Player : MonoBehaviour {
             _platformBounds.Add(platforms[i].GetComponent<Renderer>().bounds);
         }
         _knockbackOrigin = Vector3.zero;
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -65,7 +73,10 @@ public class Player : MonoBehaviour {
             if( Input.GetAxis("Horizontal") < 0 && !_disableMovement)
                 horizDistance += -0.08f;
             if( IsTouchingTopOfPlatform() && Input.GetButtonDown("Jump") && !_disableMovement)
+            {
+                PlayRandomSound(JumpSounds);
                 _jumpingCounter = 10;
+            }
         }
 
         if( IsTouchingTopOfPlatform())
@@ -91,8 +102,16 @@ public class Player : MonoBehaviour {
         vertDistance = FindMaxVerticalMovement( vertDistance);
         transform.Translate(horizDistance, vertDistance, 0);
         
-        if( HasReachedBottomOfScreen() )
+        if( HasReachedBottomOfScreen() && _disableMovement == false )
             KillPlayer();
+    }
+
+    void PlayRandomSound( AudioClip[] sounds)
+    {
+        if( sounds.Length == 0)
+            return;
+        int randomIndex = Random.Range(0, sounds.Length);
+        _audioSource.PlayOneShot( sounds[randomIndex]);
     }
 
     Vector3 KnockbackVector()
