@@ -52,7 +52,7 @@ public class Dialogs : MonoBehaviour {
         PlayRandomSound(CoinSounds);
 
         var coins = GameObject.FindGameObjectsWithTag("coin");
-        if( coins.Length == 0)
+        if( coins.Length == 1)
         {
             ShowYouWon();
             //KillPlayer();
