@@ -5,8 +5,18 @@ public class BackgroundMusic : MonoBehaviour {
 
     public AudioClip TitleBGM;
 
+    public static BackgroundMusic OnlyOneInstance;
+
     void Awake() {
-        DontDestroyOnLoad(transform.gameObject);
+        if( OnlyOneInstance)
+        {
+            DestroyImmediate(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(transform.gameObject);
+            OnlyOneInstance = this;
+        }
     }
 
 	void Start () {
