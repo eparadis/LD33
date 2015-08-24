@@ -3,8 +3,6 @@ using System.Collections;
 
 public class BackgroundMusic : MonoBehaviour {
 
-    public AudioClip TitleBGM;
-
     public static BackgroundMusic OnlyOneInstance;
 
     void Awake() {
@@ -20,7 +18,5 @@ public class BackgroundMusic : MonoBehaviour {
     }
 
 	void Start () {
-        if( TitleBGM != null)
-            GetComponent<AudioSource>().PlayOneShot(TitleBGM);
 	}
 }
