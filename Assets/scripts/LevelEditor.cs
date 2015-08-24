@@ -81,7 +81,7 @@ public class LevelSpecParser
 
     public void CreateGameObjectsFromLevelSpec(string input)
     {
-        foreach (var line in input.Split('\n'))
+        foreach (var line in input.Split( new char[] {'\n', ','} ))
         {
             string cleanLine = line.Trim();
             if (cleanLine.Length == 0)
